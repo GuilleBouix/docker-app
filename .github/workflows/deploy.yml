@@ -1,0 +1,33 @@
+# Nombre del workflow — aparece así en la pestaña Actions de GitHub
+name: Build and Push Docker Image
+
+# Cuándo se dispara este workflow
+on:
+  push:
+    branches:
+      - main # Solo cuando pusheas a la rama main
+
+# Los trabajos a ejecutar
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest # GitHub levanta una VM Ubuntu temporal para correr todo esto
+
+    steps:
+      # Paso 1: Baja el código del repo a la VM de GitHub
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      # Paso 2: Se loguea a Docker Hub usando los secrets que vamos a configurar
+      # Nunca ponés credenciales directo acá — siempre via secrets
+      - name: Login a Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      # Paso 3: Buildea la imagen con tu Dockerfile y la pushea a Docker Hub
+      - name: Build y Push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: bouixdev/docker-app:latest # El nombre de tu imagen en Docker Hub
