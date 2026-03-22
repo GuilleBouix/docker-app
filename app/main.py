@@ -20,7 +20,7 @@ Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 def inicio():
-    return {"mensaje": "API de tareas funcionando 🚀"}
+    return {"mensaje": "API DE TAREAS FUNCIONANDO CON GITHUB ACTIONS"}
 
 @app.get("/tareas")
 def listar_tareas():
