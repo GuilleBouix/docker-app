@@ -31,3 +31,7 @@ jobs:
         with:
           push: true
           tags: bouixdev/docker-app:latest # El nombre de tu imagen en Docker Hub
+
+      # Paso 4: Le avisa a Render que hay una imagen nueva para que redeploy solo
+      - name: Deploy en Render
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
